@@ -1,0 +1,10 @@
+.bar {
+  border-radius: 4px;
+  background-color: blueviolet;
+  height: 100%;
+}
+
+:host {
+  height: 100%;
+  display: flex;
+}

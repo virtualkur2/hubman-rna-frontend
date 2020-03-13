@@ -1,0 +1,30 @@
+<mat-toolbar color="primary" class="navbar">
+  <div>RNA</div>
+  <div>
+    <button mat-button>
+      Inicio
+    </button>
+    <mat-menu #trainMenu="matMenu">
+      <button mat-menu-item>Subir</button>
+      <button mat-menu-item>Introducir</button>
+    </mat-menu>
+    <button mat-button [matMenuTriggerFor]="trainMenu">
+      Entrenar
+    </button>
+    <mat-menu #predictMenu="matMenu">
+      <button mat-menu-item>Subir</button>
+      <button mat-menu-item>Introducir</button>
+    </mat-menu>
+    <button mat-button [matMenuTriggerFor]="predictMenu">
+      Predecir
+    </button>
+    <mat-menu #showMenu="matMenu">
+      <button mat-menu-item>Todos</button>
+      <button mat-menu-item>Por fecha</button>
+    </mat-menu>
+    <button mat-button [matMenuTriggerFor]="showMenu">
+      Mostrar
+    </button>
+  </div>
+
+</mat-toolbar>

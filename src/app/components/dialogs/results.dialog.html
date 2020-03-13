@@ -1,0 +1,43 @@
+<h2 mat-dialog-title *ngIf="loading">Calculando...</h2>
+<h2 mat-dialog-title *ngIf="!loading">Resultados</h2>
+<mat-dialog-content>
+
+  <div class="dialog-container">
+    <div class="align-center">
+      <div class="loading" *ngIf="loading">
+        <mat-spinner></mat-spinner>
+      </div>
+      <div class="mat-title status-message" *ngIf="loading">{{ status }}</div>
+      <div class="results" *ngIf="!loading">
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <ng-container matColumnDef="dataset_id">
+            <mat-header-cell *matHeaderCellDef>Dataset ID</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.dataset_id }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="accuracy">
+            <mat-header-cell *matHeaderCellDef>Accuracy</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ (element.accuracy).toFixed(6) }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="precision">
+            <mat-header-cell *matHeaderCellDef>Precision</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ (element.precision.toFixed(6)) }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="recall">
+            <mat-header-cell *matHeaderCellDef>Recall</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ (element.recall).toFixed(6) }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="f1score">
+            <mat-header-cell *matHeaderCellDef>F1 Score</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ (element.f1score).toFixed(6) }}</mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button color="primary" [mat-dialog-close]="true" *ngIf="!loading">Cerrar</button>
+</mat-dialog-actions>
+

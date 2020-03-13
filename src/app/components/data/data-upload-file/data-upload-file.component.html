@@ -1,0 +1,115 @@
+<div class="container">
+  <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+    <mat-horizontal-stepper labelPosition="bottom" linear #stepper>
+      <mat-step [stepControl]="uploadForm.get('dataName')">
+        <ng-template matStepLabel>Nombre</ng-template>
+        <div>
+          <mat-form-field>
+            <mat-label>Nombre del conjunto de datos:</mat-label>
+            <input matInput formControlName="dataName" required>
+          </mat-form-field>
+          <mat-error *ngIf="uploadForm.get('dataName').hasError('required') && uploadForm.get('dataName').touched">
+            Debe darle nombre al conjunto de datos.
+          </mat-error>
+        </div>
+        <div class="action-buttons">
+          <button type="button" color="primary" mat-raised-button matStepperNext>Siguiente</button>
+        </div>
+      </mat-step>
+      <mat-step [stepControl]="uploadForm.get('trainFile')">
+        <ng-template matStepLabel>Datos a entrenar</ng-template>
+        <div>
+          <mat-form-field>
+            <ngx-mat-file-input #dataFile formControlName="trainFile" [accept]="'.csv'" placeholder="Archivo requerido" valuePlaceholder="Seleccione un archivo CSV válido." required></ngx-mat-file-input>
+            <button mat-icon-button matSuffix *ngIf="!dataFile.empty" (click)="dataFile.clear($event)">
+              <mat-icon color="primary">clear</mat-icon>
+            </button>
+            <mat-icon color="primary" matSuffix>folder</mat-icon>
+            <mat-error *ngIf="uploadForm.get('trainFile').hasError('required')">
+              Por favor seleccione un archivo.
+            </mat-error>
+            <mat-error *ngIf="uploadForm.get('trainFile').hasError('maxContentSize')">
+              El tamaño total del archivo no debe exceder {{uploadForm.get('trainFile').getError('maxContentSize').maxSize | byteFormat}} ({{uploadForm.get('trainFile').getError('maxContentSize').actualSize
+              | byteFormat}}).
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="action-buttons">
+          <button type="button" color="primary" mat-raised-button matStepperPrevious>Anterior</button>
+          <button type="button" color="primary" mat-raised-button matStepperNext>Siguiente</button>
+        </div>
+      </mat-step>
+      <mat-step [stepControl]="uploadForm.get('testFile')">
+        <ng-template matStepLabel>Datos de prueba</ng-template>
+        <div>
+          <mat-form-field>
+            <ngx-mat-file-input #dataFile formControlName="testFile" [accept]="'.csv'" placeholder="Archivo requerido" valuePlaceholder="Seleccione un archivo CSV válido." required></ngx-mat-file-input>
+            <button mat-icon-button matSuffix *ngIf="!dataFile.empty" (click)="dataFile.clear($event)">
+              <mat-icon color="primary">clear</mat-icon>
+            </button>
+            <mat-icon color="primary" matSuffix>folder</mat-icon>
+            <mat-error *ngIf="uploadForm.get('testFile').hasError('required')">
+              Por favor seleccione un archivo.
+            </mat-error>
+            <mat-error *ngIf="uploadForm.get('testFile').hasError('maxContentSize')">
+              El tamaño total del archivo no debe exceder {{uploadForm.get('testFile').getError('maxContentSize').maxSize | byteFormat}} ({{uploadForm.get('testFile').getError('maxContentSize').actualSize
+              | byteFormat}}).
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="action-buttons">
+          <button type="button" color="primary" mat-raised-button matStepperPrevious>Anterior</button>
+          <button type="button" color="primary" mat-raised-button matStepperNext>Siguiente</button>
+        </div>
+      </mat-step>
+      <mat-step [stepControl]="uploadForm.get('algorithmName')">
+        <ng-template matStepLabel>Algoritmo</ng-template>
+        <div>
+          <mat-form-field>
+            <mat-label>Seleccione un algoritmo:</mat-label>
+            <mat-select formControlName="algorithmName" required>
+              <mat-option *ngFor="let algorithm of algorithms" [value]="algorithm.name">
+                {{algorithm.description}}
+              </mat-option>
+              <mat-error *ngIf="uploadForm.get('algorithmName').hasError('required')">
+                Por favor seleccione un algoritmo de la lista.
+              </mat-error>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="action-buttons">
+          <button type="button" color="primary" mat-raised-button matStepperPrevious>Anterior</button>
+          <button type="button" color="primary" mat-raised-button matStepperNext (click)="onDoneClicked()">Siguiente</button>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Finalizar</ng-template>
+        <div>
+          <div class="mat-title">Opciones seleccionadas:</div>
+          <mat-list class="selected-options">
+            <mat-list-item *ngFor="let data of formValues">
+              <div class="item-container">
+                <div class="value-container">
+                  <mat-icon color="primary">done</mat-icon>
+                  <span class="mat-body-1"> {{ data.value }}: </span>
+                  <span class="mat-body-2"> {{ data.viewValue }} </span>
+                </div>
+                <div class="progressbar-container" *ngIf="data.value === 'Archivo de entrenamiento'">
+                  <app-progress-bar [progress]="trainFileUploadProgress"></app-progress-bar>
+                </div>
+                <div class="progressbar-container" *ngIf="data.value === 'Archivo de prueba'">
+                  <app-progress-bar [progress]="testFileUploadProgress"></app-progress-bar>
+                </div>
+              </div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+        <div class="action-buttons">
+          <button type="button" color="primary" mat-raised-button matStepperPrevious>Anterior</button>
+          <button type="button" color="warn" mat-raised-button (click)="stepper.reset()">Limpiar</button>
+          <button type="submit" color="secondary" mat-raised-button>Enviar</button>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </form>
+</div>
