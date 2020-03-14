@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiURL: 'https://omnipc.ddns.net/rna'
+  apiURL: 'rna',
+  baseURL: 'https://omnipc.ddns.net',
 };

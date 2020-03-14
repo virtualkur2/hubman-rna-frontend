@@ -28,7 +28,7 @@ export class BackendService {
   }
 
   getResults(full_url: string) {
-    const url = `${environment.baseURL}${full_url}`;
+    const url = `${environment.baseURL}/${environment.apiURL}${full_url}`;
     return Observable.create(observer => {
       const eventSource = this._sseService.getEventSource(url);
 
