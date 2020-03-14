@@ -28,7 +28,7 @@ export class DataUploadFileComponent implements OnInit{
   trainFileSizeRatio: number = 0;
   testFileSizeRatio: number = 0;
 
-  readonly maxSize = 10485760; //10MB => 10 * 2 ** 20
+  readonly maxSize = 20971520; //20MB => 20 * (2 ** 20)
   formValues: DataModel[];
   uploadForm: FormGroup;
 
@@ -86,24 +86,24 @@ export class DataUploadFileComponent implements OnInit{
     });
   }
 
-  onBackendResponse(response: any): void {
-    this.backend.getResults(response.taskstatusurl)
-    .subscribe({
-      next: (data: any) => {
-        if(data.state === 'WORKING' || data.state === 'PENDING') {
-          console.log(data.status ? data.status : 'Pending work...');
-        } else {
-          console.log(data.results ? data.results : 'No results after all.');
-        }
-      },
-      error: (error: any) => {
-        console.log(error);
-      },
-      complete: () => {
-        console.log('Complete');
-      }
-    })
-  }
+  // onBackendResponse(response: any): void {
+  //   this.backend.getResults(response.taskstatusurl)
+  //   .subscribe({
+  //     next: (data: any) => {
+  //       if(data.state === 'WORKING' || data.state === 'PENDING') {
+  //         console.log(data.status ? data.status : 'Pending work...');
+  //       } else {
+  //         console.log(data.results ? data.results : 'No results after all.');
+  //       }
+  //     },
+  //     error: (error: any) => {
+  //       console.log(error);
+  //     },
+  //     complete: () => {
+  //       console.log('Complete');
+  //     }
+  //   })
+  // }
 
   constructor(private _formBuilder: FormBuilder,
               private utils: UtilsService,
