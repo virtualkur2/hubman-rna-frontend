@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiURL: 'rna',
-  baseURL: 'http://localhost:5000'
+  baseURL: 'http://localhost:5000',
+  apiURL: ''
 };
 
 /*

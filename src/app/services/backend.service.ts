@@ -12,8 +12,8 @@ export class BackendService {
 
   constructor( private http: HttpClient, private _zone: NgZone, private _sseService: SseService ) { }
 
-  private algorithmsUrl = `${environment.baseURL}/${environment.apiURL}/algorithms`;
-  private trainfileUrl = `${environment.baseURL}/${environment.apiURL}/train/file`;
+  private algorithmsUrl = `${environment.baseURL}${environment.apiURL !== '' ? `/${environment.apiURL}`: environment.apiURL}/algorithms`;
+  private trainfileUrl = `${environment.baseURL}${environment.apiURL !== '' ? `/${environment.apiURL}`: environment.apiURL}/train/file`;
 
   getAlgorithms(): Observable<BackendMessage> {
     return this.http.get<BackendMessage>(this.algorithmsUrl);
@@ -28,7 +28,7 @@ export class BackendService {
   }
 
   getResults(full_url: string) {
-    const url = `${environment.baseURL}/${environment.apiURL}${full_url}`;
+    const url = `${environment.baseURL}${environment.apiURL !== '' ? `/${environment.apiURL}`: environment.apiURL}${full_url}`;
     return Observable.create(observer => {
       const eventSource = this._sseService.getEventSource(url);
 
